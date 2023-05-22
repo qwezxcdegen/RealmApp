@@ -11,12 +11,15 @@ import RealmSwift
 
 final class TaskListViewController: UITableViewController {
     
+    // MARK: - IB Actions
     @IBOutlet weak var sortingControl: UISegmentedControl!
 
+    // MARK: - Private Properties
     private var taskLists: Results<TaskList>!
     private let storageManager = StorageManager.shared
     private let dataManager = DataManager.shared
     
+    // MARK: - View Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         let addButton = UIBarButtonItem(
@@ -99,6 +102,7 @@ final class TaskListViewController: UITableViewController {
         tasksVC.taskList = taskList
     }
 
+    // MARK: - IB Actions
     @IBAction func sortingList() {
         switch sortingControl.selectedSegmentIndex {
         case 0:
@@ -110,10 +114,12 @@ final class TaskListViewController: UITableViewController {
         }
     }
     
+    // MARK: - Obj-c Methods
     @objc private func addButtonPressed() {
         showAlert()
     }
     
+    // MARK: - Private Methods
     private func createTempData() {
         if !UserDefaults.standard.bool(forKey: "done") {
             dataManager.createTempData { [unowned self] in

@@ -11,12 +11,15 @@ import RealmSwift
 
 final class TasksViewController: UITableViewController {
     
+    // MARK: - Public Properties
     var taskList: TaskList!
     
+    // MARK: - Private Properties
     private var currentTasks: Results<Task>!
     private var completedTasks: Results<Task>!
     private let storageManager = StorageManager.shared
     
+    // MARK: - View Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         title = taskList.title
@@ -55,6 +58,7 @@ final class TasksViewController: UITableViewController {
         return cell
     }
     
+    // MARK: - Obj-c Methods
     @objc private func addButtonPressed() {
         showAlert()
     }
@@ -94,8 +98,9 @@ extension TasksViewController {
     }
 }
 
-extension TasksViewController {
-    private func showAlert(with task: Task? = nil, completion: (() -> Void)? = nil) {
+// MARK: - Private Methods
+private extension TasksViewController {
+    func showAlert(with task: Task? = nil, completion: (() -> Void)? = nil) {
         let alertBuilder = AlertControllerBuilder(
             title: task != nil ? "Edit Task" : "New Task",
             message: "What do you want to do?"
@@ -120,7 +125,7 @@ extension TasksViewController {
         present(alertController, animated: true)
     }
     
-    private func save(task: String, withNote note: String) {
+    func save(task: String, withNote note: String) {
         storageManager.save(task, withNote: note, to: taskList) { task in
             let rowIndex = IndexPath(row: currentTasks.index(of: task) ?? 0, section: 0)
             tableView.insertRows(at: [rowIndex], with: .automatic)
